@@ -63,8 +63,9 @@
         font-family: "Delius", serif;
         font-weight: 400;
         font-style: normal;
-        width: 250px;
-        height: 250px;
+        width: min(30vw, 220px);
+        aspect-ratio : 1/1;
+        height: auto;
         padding-top: 10px;
         background-image: url('https://cdn.prod.website-files.com/635bd94b8b533d5752353a36/6763c4448d6279222c8850c1_butterfly%203.png');
         background-size: contain;
@@ -72,8 +73,8 @@
         background-position: center;
         display: flex;
         align-items: center;
-        justify-content: center;
-        animation: float 5s   ease-in-out infinite;
+        justify-content: center; 
+        animation: float 5s   ease-in-out infinite; /* animation runs forever and in loop so animation doesnt snap */
         filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
         z-index: 3000;
         
@@ -99,7 +100,8 @@
 
 .text-content {
     color: rgb(72, 21, 94);
-    font-size: 15px;
+    font-size: clamp(12px, 2.5vw, 18px);
+    max-width: 70%;
     font-weight: 200;
     text-align: center;
     max-width: 120px;
@@ -112,8 +114,12 @@
 
     .modal {
         transform: translate(-50%, -50%); 
-        width: 419px;
-        height: 755px;
+        width: min(90vw, 420px);
+        height: min(90vh, 760px);
+        margin: auto;
+        left: 50%; 
+        top: 50%; 
+        transform: translate(-50%, -50%); /*make modal centered ,usable on all screens*/
         border-radius: 25px;
         z-index: 2000;
         display: flex; 
@@ -232,8 +238,9 @@
 .popup-button 
 {
     position: absolute;
-    width: 250px;
-    height: 250px; /* Set a height to make it square */
+    width: min(30vw, 220px);
+    aspect-ratio: 1 / 1;
+    height: auto;
     bottom: 0;
     right: 0;
     padding: 10px;
@@ -295,7 +302,10 @@
     }
 @keyframes float {
         0%, 100% {
-            transform: translate(0, 0) rotate(0deg);
+            transform: translate(0, 0) rotate(0deg); 
+            /* put the butterfly in the same start and end in the same position with animation loop. 
+            move 0 pixels horizontally and vertically and rotate 0 degrees
+            */
         }
         25% {
             transform: translate(200px, -50px) rotate(5deg);
