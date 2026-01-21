@@ -99,6 +99,7 @@ body{
 .selected-avatar {
     width: 36px; 
     height: 36px; 
+    margin-right: 12px;
     border-radius: 10px; 
     display: flex; 
     align-items: center; 
@@ -112,6 +113,14 @@ body{
     height: 70%; 
     object-fit: contain; 
     display: none;
+}
+
+#selectedAvatarImg{
+    width:48px; 
+    height: 48px; 
+    border-radius: 50%; 
+    display: none; 
+    object-fit:cover; 
 }
 
 .username-text{

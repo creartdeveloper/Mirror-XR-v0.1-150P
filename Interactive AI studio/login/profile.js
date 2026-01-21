@@ -1,17 +1,46 @@
-document.getElementById("toggleDarkMode")
-document.addEventListener("click", function (){
-    document.body.classList.toggle("dark-mode");
-});
+// Reusable random number helper
+// Returns a random integer between min and max (inclusive)
 
-/* need to impelemnt the above*/
+const avatars = document.querySelectorAll(".avatar");
+const selectedAvatarImg = document.getElementById("selectedAvatarImg");
+const usernameInput = document.getElementById('usernameInput');
 
-const avatars = document.querySelectorAll('.avatar');
-const selectedAvatarImg = document.getElementById('selectedAvatarImg');
-const usernameInput = document.getElementById('username');
-const submitbutton = document.getElementById('submitbutton')
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
-//disable submit until avatar is chosen 
-submitbutton.disabled = true;
+// Fun game-style adjectives (15)
+const adjectives = [
+  "Bouncy", "Zippy", "Snappy", "Wiggly", "Sparkly",
+  "Chunky", "Fizzy", "Speedy", "Goofy", "Spooky",
+  "Flashy", "Slinky", "Loopy", "Cheeky", "Buzzy"
+];
+
+// Game-style nouns (15)
+const nouns = [
+  "Orb", "Boost", "Zap", "Token", "Pad",
+  "Bar", "Ring", "Beam", "Tile", "Dash",
+  "Loop", "Meter", "Core", "Chip", "Pulse"
+];
+
+const usedUsernames = new Set();
+
+function generateUsernameForAvatar(){
+    let username; 
+
+    do{
+        const adj = adjectives[getRandomInt(0, adjectives.length - 1)];
+        const noun =  nouns[getRandomInt(0, nouns.lenght - 1)];
+        const number = getRandomInt(0,9);
+
+        username = `${adj}${noun}${number}`;
+    } while (usedUsernames.has(username));
+
+        usedUsernames.add(username);
+        return username;
+    }
+
+
 
 //avatar selection
 
@@ -32,28 +61,18 @@ avatars.forEach(avatar => {
 
         //store for next page
         sessionStorage.setItem('selectedAvatar', img.src);
+
+        // generate username AFTER avatar selection 
+        const username = generateUsernameForAvatar();
+
+        // fill username input
+        usernameInput.value = username; 
+        usernameInput.disabled = true; 
+
+        //store username for next page
+        sessionStorage.setItem("username", username);
     });
 });
 
 
-//generate username
 
-function generateUsername(){
-
-    const usernames = new Set();
-
-    while (usernames.size < count) {
-        const adj = adjectives[Math.floor(Math.random()* adjectives.length)];
-        const noun = nouns[Math.floor(Math.random() * nouns.length)];
-        const number = Math.floor(Math.random() * 100);
-
-        usernames.add(`${adj}${noun}${num}`);
-    }
-
-    return Array.from(usernames);
-
-
-}
-
-const name = generateUsername(200);
-console.log(username);
