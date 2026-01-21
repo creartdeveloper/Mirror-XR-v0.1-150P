@@ -1,78 +1,84 @@
-// Reusable random number helper
-// Returns a random integer between min and max (inclusive)
 
 const avatars = document.querySelectorAll(".avatar");
 const selectedAvatarImg = document.getElementById("selectedAvatarImg");
-const usernameInput = document.getElementById('usernameInput');
+const usernameInput = document.getElementById("usernameInput");
 
+
+
+// Returns a random integer between min and max (inclusive)
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Fun game-style adjectives (15)
+function isValidUsername(name){
+    
+}
+// 15 adjectives 
 const adjectives = [
   "Bouncy", "Zippy", "Snappy", "Wiggly", "Sparkly",
   "Chunky", "Fizzy", "Speedy", "Goofy", "Spooky",
   "Flashy", "Slinky", "Loopy", "Cheeky", "Buzzy"
 ];
 
-// Game-style nouns (15)
+// 15 nouns
 const nouns = [
   "Orb", "Boost", "Zap", "Token", "Pad",
   "Bar", "Ring", "Beam", "Tile", "Dash",
   "Loop", "Meter", "Core", "Chip", "Pulse"
 ];
 
+
+let usernameAssigned = false;
 const usedUsernames = new Set();
 
-function generateUsernameForAvatar(){
-    let username; 
 
-    do{
-        const adj = adjectives[getRandomInt(0, adjectives.length - 1)];
-        const noun =  nouns[getRandomInt(0, nouns.lenght - 1)];
-        const number = getRandomInt(0,9);
+function generateUsernameForAvatar() {
+  let username;
 
-        username = `${adj}${noun}${number}`;
-    } while (usedUsernames.has(username));
+  do {
+    const adj = adjectives[getRandomInt(0, adjectives.length - 1)];
+    const noun = nouns[getRandomInt(0, nouns.length - 1)];
+    const number = getRandomInt(0, 9);
 
-        usedUsernames.add(username);
-        return username;
-    }
+    username = `${adj}${noun}${number}`;
+  } while (usedUsernames.has(username));
 
+  usedUsernames.add(username);
+  return username;
+}
 
-
-//avatar selection
 
 avatars.forEach(avatar => {
-    avatar.addEventListener('click', () => {
-        //remove previous selection
-        avatars.forEach(a => a.classList.remove('selected'));
-        avatar.classList.add('selected');
+  avatar.addEventListener("click", () => {
 
-        //get image inside clicked avatar
-        const img = avatar.querySelector('img');
+    // Remove previous selection
+    avatars.forEach(a => a.classList.remove("selected"));
+    avatar.classList.add("selected");
 
-        // copy image into bottom bar
-        if (img && selectedAvatarImg){
-            selectedAvatarImg.src = img.src;
-            selectedAvatarImg.style.display = 'block';
-        }
+    // Get avatar image
+    const img = avatar.querySelector("img");
+    if (!img) return;
 
-        //store for next page
-        sessionStorage.setItem('selectedAvatar', img.src);
+    // Update avatar preview in bottom bar
+    selectedAvatarImg.src = img.src;
+    selectedAvatarImg.style.display = "block";
 
-        // generate username AFTER avatar selection 
-        const username = generateUsernameForAvatar();
+    // Store avatar for next page
+    sessionStorage.setItem("selectedAvatar", img.src);
 
-        // fill username input
-        usernameInput.value = username; 
-        usernameInput.disabled = true; 
+    // Generate username ONLY ON FIRST SELECTION
+    if (!usernameAssigned) {
+      const username = generateUsernameForAvatar();
 
-        //store username for next page
-        sessionStorage.setItem("username", username);
-    });
+      usernameInput.value = username;
+      usernameInput.readOnly = true; // locked but still selectable
+      sessionStorage.setItem("username", username);
+
+      usernameAssigned = true;
+
+      usernameInput.addEventListener("focus", () => {
+        usernameInput.readOnly = false; 
+      })
+    }
+  });
 });
-
-
-
