@@ -10,9 +10,31 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function isValidUsername(name){
-    
+// Username rules: 3–16 chars, letters, numbers, underscore
+function isValidUsername(name) {
+  return /^[a-zA-Z0-9_]{3,16}$/.test(name);
 }
+
+//profanity list 
+let bannedWords = [];
+
+fetch("./words.json")
+  .then(res => res.json())
+  .then(data => {
+    bannedWords = data.map(w => w.toLowerCase());
+    console.log("Profanity list loaded:", bannedWords.length);
+
+    if (bannedWords.length === 0) {
+      console.warn("Profanity list is empty");
+    }
+  })
+  .catch(err => console.error("Failed to load profanity list", err));
+
+function containsProfanity(username) {
+  const lower = username.toLowerCase();
+  return bannedWords.some(word => lower.includes(word));
+}
+
 // 15 adjectives 
 const adjectives = [
   "Bouncy", "Zippy", "Snappy", "Wiggly", "Sparkly",
@@ -71,14 +93,79 @@ avatars.forEach(avatar => {
       const username = generateUsernameForAvatar();
 
       usernameInput.value = username;
-      usernameInput.readOnly = true; // locked but still selectable
+      usernameInput.readOnly = false; // locked but still selectable
       sessionStorage.setItem("username", username);
 
       usernameAssigned = true;
-
-      usernameInput.addEventListener("focus", () => {
-        usernameInput.readOnly = false; 
-      })
     }
   });
+});
+
+let isEditingUsername = false;
+
+ // enable user to edit username after username is randomly generated 
+usernameInput.addEventListener("focus", () => {
+  if (!usernameAssigned) {
+    usernameInput.blur();
+    return;
+  }
+  isEditingUsername = true;
+  usernameInput.readOnly = false;
+});
+
+
+// validate and lock username
+function validateAndLockUsername() {
+  if (!isEditingUsername) return;
+
+  const name = usernameInput.value.trim();
+
+  // Rule check
+  if (!isValidUsername(name)) {
+    alert("Username must be 3–16 characters and use only letters, numbers, or _");
+    usernameInput.value = sessionStorage.getItem("username");
+    usernameInput.readOnly = true;
+    isEditingUsername = false;
+    return;
+  }
+
+  // Profanity check
+  if (containsProfanity(name)) {
+    alert("Please choose a different username");
+    usernameInput.value = sessionStorage.getItem("username");
+    usernameInput.readOnly = true;
+    isEditingUsername = false;
+    return;
+  }
+
+
+  usernameInput.readOnly = true;
+  sessionStorage.setItem("username", name);
+  isEditingUsername = false;
+}
+
+// if user clicks anywhere else  = blur or when user clicks away blur
+usernameInput.addEventListener("blur", validateAndLockUsername);
+
+//lock on enter
+usernameInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    validateAndLockUsername();
+    usernameInput.blur();
+  }
+});
+
+// continue button 
+document.getElementById("nextbutton").addEventListener("click", () => {
+  validateAndLockUsername();
+
+  const username = sessionStorage.getItem("username");
+  const avatar = sessionStorage.getItem("selectedAvatar");
+
+  if (!username || !avatar) {
+    alert("Please select an avatar and username");
+    return;
+  }
+
+
 });
