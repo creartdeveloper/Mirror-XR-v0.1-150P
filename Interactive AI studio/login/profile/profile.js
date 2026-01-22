@@ -4,12 +4,13 @@ const selectedAvatarImg = document.getElementById("selectedAvatarImg");
 const usernameInput = document.getElementById("usernameInput");
 const selectedAvatar = document.querySelector('selected-avatar');
 const colorInput = document.getElementById('background-color');
-const defaultAvatars=[
-    "../images/iPad-IU-Dewdrop.png",
-    "../images/iPad-IU-Pebble.png",
-    "../images/iPad-IU-Twinkle.png",
-    "../images/iPad-IU-Whimsy.png"
+const defaultAvatars = [
+    "./images/iPad-IU-Dewdrop.png",
+    "./images/iPad-IU-Pebble.png",
+    "./images/iPad-IU-Twinkle.png",
+    "./images/iPad-IU-Whimsy.png"
 ];
+
 
 // Returns a random integer between min and max (inclusive)
 function getRandomInt(min, max) {
@@ -182,11 +183,26 @@ colorInput.addEventListener('input', () => {
 
 });
 
+// get img element displays default avatar
+// this lets us change the avatar image dynamically
+
 const defaultAvatarImg =document.getElementById("defaultAvatarImg");
 
+//generate random number between 0 and (number of defaults -1)
+//math.random gives number between 0 and 0.999
+// multiply default avatars lenght scales it to array size
+// math.floor() rounds it down to a whole number (array index)
 const randomIndex=Math.floor(Math.random() * defaultAvatars.length);
+
+//use random index to select one avatar from the array
+//default avatars is array link
 const chosenDefault = defaultAvatars[randomIndex];
+
+//set src of image element to chosen avatar
 
 defaultAvatarImg.src = chosenDefault; 
 
+//save chosen avatar in session storage
+//allows avatar to stay same if page reloads
+//sessionStorage lasts for browser session
 sessionStorage.setItem("defaultAvatar", chosenDefault);
