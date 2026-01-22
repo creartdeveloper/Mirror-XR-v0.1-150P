@@ -15,6 +15,7 @@
 }
 
 .app-shell{
+    width: 100%;
     min-height: 100svh;
     display:flex;
     justify-content:center;
@@ -22,40 +23,36 @@
 }
 
 .app-content{
-    width: min(100%, 420px);
-    padding:2rem;
+    width: min(90vw, 420px);
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 body{
     margin: 0;
     color:white;
-    font-family: sans-serif;
+    font-family: "Delius", serif;
 }
 
 
-.profile-card{
-    width:min(88vw, 340px);
-    max-height: 82svh;
-    aspect-ratio: 9 /16;
-    background: #2e2338;
-    border: 6px solid #8f7cff;
-    border-radius: 28px;
-    padding: 1.6rem 1.2rem;
+.profile-container{
+    width: 100%;
     display:flex;
-    flex-direction:column;
-    justify-content:space-between;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .avatar-grid{
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(4,1fr);
-    gap:1rem;
-    margin-top: 1rem;
+    gap:12px;
 }
 
 .avatar{
     aspect-ratio: 1 / 1;
-    border-radius: 14px;
+    border-radius: 12px;
     border: 4px solid #8f7cff;
     background: transparent;
 
@@ -88,13 +85,12 @@ body{
 .bottom-bar{
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem;
     border: 4px solid #8f7cff;
     width: 100%;
     max-width: 420px;
     border-radius: 18px;
-    padding: 0.8rem 1rem;
-    margin-top: 1.5rem;
+    padding: 0.8rem;
 }
 
 /*preview box in the bottom bar*/
@@ -125,17 +121,11 @@ body{
     object-fit:cover; 
 }
 
-.username-text{
-    font-size: 0.95rem;
-    white-space:nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+#usernameInput{
+    color:black;
+    opacity:0.5;
 }
-/*username input*/
 
-#username{
-    color:white;
-}
 
 /* button */
 .next-button {
@@ -194,4 +184,6 @@ body{
   transform: translateY(1px);
 }
 
-
+.footer-ui{
+    width:100%
+}
