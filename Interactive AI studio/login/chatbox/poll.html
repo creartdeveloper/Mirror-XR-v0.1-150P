@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="poll.css">
+    <title>Poll View</title>
+    
+</head>
+<body>
+
+    <div id="main-container">
+        <!--poll1-->
+        <section class="poll" data-poll-id="poll-1">
+        <h3 class="poll-title">Poll 1</h3>
+
+        <div class="box" data-page-type="dewdrop">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="pebble">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="twinkle">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="whimsy">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+        </section>
+        <!--Poll2-->
+        <section class="poll" data-poll-id="poll-2">
+        <h3 class="poll-title">Poll 1</h3>
+
+        <div class="box" data-page-type="dewdrop">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="pebble">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="twinkle">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="whimsy">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+        </section>
+
+        <!--Poll3-->
+        <section class="poll" data-poll-id="poll-3">
+        <h3 class="poll-title">Poll 1</h3>
+
+        <div class="box" data-page-type="dewdrop">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="pebble">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="twinkle">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="whimsy">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+        </section>
+        <!--Poll4-->
+        <section class="poll" data-poll-id="poll-4">
+        <h3 class="poll-title">Poll 1</h3>
+
+        <div class="box" data-page-type="dewdrop">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="pebble">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="twinkle">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="whimsy">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+        </section>
+
+        <!--Poll5-->
+        <section class="poll" data-poll-id="poll-5">
+        <h3 class="poll-title">Poll 1</h3>
+
+        <div class="box" data-page-type="dewdrop">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="pebble">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="twinkle">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+
+        <div class="box" data-page-type="whimsy">
+            <div class="text-section"></div>
+            <div class="emoji-section"></div>
+        </div>
+        </section>
+
+    </div>
+
+ <script type="module">
+
+const USE_POLL_MODE = true;
+
+
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDiCIatzcDsnHdX_t-m15S1a8pNlrB2egs",
+  authDomain: "mira-7360b.firebaseapp.com",
+  projectId: "mira-7360b",
+  storageBucket: "mira-7360b.appspot.com",
+  messagingSenderId: "76074103771",
+  appId: "1:76074103771:web:1a2d4ca7e8b5df27a82dfe"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+
+const MAGICAL_ITEM_COLLECTION = "magical_item";
+const EMOJI_COLLECTION = "emoji";
+const PAGE_TYPES = ["dewdrop", "twinkle", "pebble", "whimsy"];
+
+
+
+async function loadPollMode() {
+
+  const polls = document.querySelectorAll(".poll");
+
+  for (const pollEl of polls) {
+    const pollId = pollEl.dataset.pollId;
+
+    for (const pageType of PAGE_TYPES) {
+      const box = pollEl.querySelector(`[data-page-type="${pageType}"]`);
+      if (!box) continue;
+
+      const textSection = box.querySelector(".text-section");
+      const emojiSection = box.querySelector(".emoji-section");
+
+      try {
+
+        const itemQuery = query(
+          collection(db, MAGICAL_ITEM_COLLECTION),
+          where("page_type", "==", pageType),
+          orderBy("timestamp", "desc"),
+          limit(1)
+        );
+
+        const itemSnap = await getDocs(itemQuery);
+        if (!itemSnap.empty) {
+          const item = itemSnap.docs[0].data().item;
+          textSection.textContent = `${pageType}...${item}....`;
+        }
+
+
+        const emojiQuery = query(
+          collection(db, EMOJI_COLLECTION),
+          where("pollId", "==", pollId),
+          where("pageType", "==", pageType)
+        );
+
+        const emojiSnap = await getDocs(emojiQuery);
+
+        // count emojis
+        const emojiCounts = {};
+        emojiSnap.forEach(doc => {
+          const emoji = doc.data().emoji;
+          emojiCounts[emoji] = (emojiCounts[emoji] || 0) + 1;
+        });
+
+        // render counts
+        emojiSection.innerHTML = "";
+        Object.entries(emojiCounts).forEach(([emoji, count]) => {
+          const el = document.createElement("div");
+          el.className = "emoji-count";
+          el.innerHTML = `
+            <span class="emoji">${emoji}</span>
+            <span class="count">${count}</span>
+          `;
+          emojiSection.appendChild(el);
+        });
+
+      } catch (err) {
+        console.error(`Poll mode error [${pollId} / ${pageType}]`, err);
+      }
+    }
+  }
+}
+
+const emojiStates = {
+  dewdrop: { emoji: null, timestamp: null },
+  twinkle: { emoji: null, timestamp: null },
+  pebble: { emoji: null, timestamp: null },
+  whimsy: { emoji: null, timestamp: null }
+};
+
+async function loadReactionMode() {
+  for (const pageType of PAGE_TYPES) {
+    const box = document.querySelector(`[data-page-type="${pageType}"]`);
+    if (!box) continue;
+
+    const textSection = box.querySelector(".text-section");
+    const emojiSection = box.querySelector(".emoji-section");
+
+    try {
+      const itemQuery = query(
+        collection(db, MAGICAL_ITEM_COLLECTION),
+        where("page_type", "==", pageType),
+        orderBy("timestamp", "desc"),
+        limit(1)
+      );
+
+      const emojiQuery = query(
+        collection(db, EMOJI_COLLECTION),
+        where("pageType", "==", pageType),
+        orderBy("timestamp", "desc"),
+        limit(1)
+      );
+
+      const [itemSnap, emojiSnap] = await Promise.all([
+        getDocs(itemQuery),
+        getDocs(emojiQuery)
+      ]);
+
+      if (!itemSnap.empty) {
+        const item = itemSnap.docs[0].data().item;
+        textSection.textContent = `${pageType}...${item}....`;
+      }
+
+      if (!emojiSnap.empty) {
+        const data = emojiSnap.docs[0].data();
+        emojiStates[pageType] = {
+          emoji: data.emoji,
+          timestamp: data.timestamp.toDate()
+        };
+        emojiSection.textContent = data.emoji;
+      }
+
+    } catch (err) {
+      console.error("Reaction mode error:", err);
+    }
+  }
+}
+
+async function checkAndCleanEmojis() {
+  const now = Date.now();
+  for (const pageType of PAGE_TYPES) {
+    const state = emojiStates[pageType];
+    if (state.timestamp && now - state.timestamp > 12000) {
+      const box = document.querySelector(`[data-page-type="${pageType}"]`);
+      if (box) box.querySelector(".emoji-section").textContent = "";
+    }
+  }
+}
+
+
+if (USE_POLL_MODE) {
+  setInterval(loadPollMode, 1000);
+} else {
+  setInterval(loadReactionMode, 1000);
+  setInterval(checkAndCleanEmojis, 8000);
+}
+</script>
+
+</body>
+</html>

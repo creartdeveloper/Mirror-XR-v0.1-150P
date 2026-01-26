@@ -162,21 +162,6 @@ usernameInput.addEventListener("keydown", (e) => {
   }
 });
 
-// continue button 
-document.getElementById("nextButton").addEventListener("click", () => {
-  validateAndLockUsername();
-
-  const username = sessionStorage.getItem("username");
-  const avatar = sessionStorage.getItem("selectedAvatar");
-
-  if (!username || !avatar) {
-    alert("Please select an avatar and username");
-    return;
-  }
-
-
-});
-
 
 colorInput.addEventListener('input', () => {
     selectedAvatar.style.backgroundColor = colorInput.value;
