@@ -31,53 +31,52 @@
 
     </style>
 </head>
+<body>
+    <div class="app-shell">
+        <div class="app-content">
+            <div class="main-container"> 
+            <div class="logo-wrapper">
+                <img src="../images/logo.png" alt="Mirror XR Logo" class="logo">
+            </div>
+            <div class="chat-area">
+                <div class="message-box">
+                <img src="../images/text-box.png" class="message-box-bg">
+                <textarea maxlength="100"placeholder="Type Message Here" class="msg-text-box"></textarea>
 
-    <body>
-        <div class="app-shell">
-            <div class="app-content">
-                <div class="logo-wrapper">
-                    <img src="../images/logo.png" alt="Mirror XR Logo" class="logo">
-                </div>
-                <div class="chat-area">
-                    <div class="message-box">
-                        <img src="../images/text-box.png" class="chat-bg">
-                        <textarea maxlength="100" placeholder="Type Message Here" class="msg-text-box"></textarea>
-                    </div>
-                </div>
-                <div class="selected-avatar">
+                <div class="avatar-wrap">
                     <img id="selectedAvatarImg" alt="selectedAvatar">
                 </div>
-                <div class="emoji-container">
-                    <button class="emoji-btn">😄</button>
-                    <button class="emoji-btn">😭</button>
-                    <button class="emoji-btn">☺️</button>
-                    <button class="emoji-btn">😕</button>
-                    <button class="emoji-btn">🥰</button>
+                
+            </div>
+            <div class="emoji-container">
+                <button class="emoji-btn">😄</button>
+                <button class="emoji-btn">😭</button>
+                <button class="emoji-btn">☺️</button>
+                <button class="emoji-btn">😕</button>
+                <button class="emoji-btn">🥰</button>
+            </div>
+            <div class="magical-items">
+                <div class="items-container">
+                <div class="item" data-item="jar">
+                    <img src="../images/UI/2.1.png" alt="jar">
                 </div>
-            
-
-                <div class="magical-items">
-           
-                    <div class="items-container">
-                        <div class="item" data-item="jar">
-                            <img src="../images/UI/2.1.png" alt="jar">
-                        </div>
-                    <div class="item" data-item="hourglass">
-                        <img src="../images/UI/2.2.png" alt="Hours">
-                    </div>
-                    <div class="item" data-item="broken-plate">
-                        <img src="../images/UI/1.2.png" alt="Broken -Plate">
-                    </div>
+                <div class="item" data-item="hourglass">
+                    <img src="../images/UI/2.2.png" alt="hourglass">
                 </div>
-                <div class="footer">
-                    <img src="../images/Pick-a-Magical-Item.png" alt="pick a magical item"> 
+                <div class="item" data-item="broken-plate">
+                    <img src="../images/UI/1.2.png" alt="broken plate">
                 </div>
-            
-
             </div>
         </div>
-         <script src="./chatbox.js" defer></script>
-        <script type="module">
+        <div class="footer">
+            <button class="pick-item-button">
+                <img src="../images/Pick-a-Magical-Item.png" alt="pick a magical item"> 
+            </button>
+        </div>
+    
+    </div>
+    <script src="./chatbox.js" defer></script>
+    <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
         import { getStorage } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-storage.js";
@@ -230,7 +229,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/fireba
         // Check if there's a previously selected item on page load
        
   
-    </script>
+</script>
        
- </body>
+</body>
 </html>
